@@ -28,9 +28,21 @@ export class CategoriasPage {
     this.categoriaService.findAll()
       .subscribe(response => {
         this.items = response;
+        this.items.forEach(element => {
+          this.getImageIfExists(element);         
+        });
       }, error => {
         
       })
+  }
+
+  getImageIfExists(item : CategoriaDTO){
+    this.categoriaService.getImageFromBucket(item.id)
+    .subscribe(response =>{
+     item.imageUrl = `${API_CONFIG.backetBaseUrl}/cat${item.id}.jpg`;
+      console.log('Imagem do bucket ok '+item.imageUrl)
+    },error => {});
+
   }
 
 }

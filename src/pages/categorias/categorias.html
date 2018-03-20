@@ -14,7 +14,8 @@
   <ion-list>
     <button ion-item *ngFor="let item of items">
       <ion-thumbnail item-start>
-        <img class="img-corner-10" src="{{bucketUrl}}/cat{{item.id}}.jpg">
+          <img class="circle" [src]="item?.imageUrl || 'assets/imgs/prod.jpg'">
+     <!--   <img class="img-corner-10" src="{{bucketUrl}}/cat{{item.id}}.jpg"> -->
       </ion-thumbnail>
       <h2>{{item.nome}}</h2>      
     </button>

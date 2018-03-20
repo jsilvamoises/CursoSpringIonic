@@ -17,13 +17,13 @@ export class AuthService {
     }
 
 
-    successFullLogin(authorizationValue: string) {
-       let token = authorizationValue.substring(7);
+    successFullLogin(authorizationValue : string) {
+       let tok = authorizationValue.substring(7);
 
        let localUser : LocalUser = {
-           token:token,
-           email: this.jwtHelper.decodeToken(token).sub
-       }
+           token:tok,
+           email: this.jwtHelper.decodeToken(tok).sub
+       };
 
        this.storange.setLocalUser(localUser);
     }

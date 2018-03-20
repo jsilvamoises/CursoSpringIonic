@@ -15,4 +15,11 @@ export class CategoriaService{
      findAll():Observable<CategoriaDTO[]>{
          return this.http.get<CategoriaDTO[]>(`${API_CONFIG.baseUrl}/categorias`);
      }
+
+
+     getImageFromBucket(id:string):Observable<any>{
+        console.log('buscando image no bucket.')
+        let url = `${API_CONFIG.backetBaseUrl}/cat${id}.jpg`
+        return this.http.get(url,{responseType:'blob'});
+    }
 }

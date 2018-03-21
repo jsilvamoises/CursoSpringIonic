@@ -18,37 +18,44 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-profile',
   templateUrl: 'profile.html',
 })
-export class ProfilePage {  
-  cliente:ClienteDTO;
+export class ProfilePage {
+  cliente: ClienteDTO;
 
   constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams, 
-    public storage:StorangeService,
-  public clienteService:ClienteService) {
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public storage: StorangeService,
+    public clienteService: ClienteService) {
   }
 
   ionViewDidLoad() {
     let localUser = this.storage.getLocalUser();
-   
-    if(localUser && localUser.email){
-       this.clienteService.findByEmail(localUser.email)
-      .subscribe(response =>{
-        this.cliente = response;   
-        this.getImageIfExists();
-        
-      },error =>{
-        console.log(error);
-      });
+
+    if (localUser && localUser.email) {
+      this.clienteService.findByEmail(localUser.email)
+        .subscribe(response => {
+          this.cliente = response;
+          this.getImageIfExists();
+
+        }, error => {
+          if (error.status == 403) {
+            this.gotoHomePage();
+          }
+        });
+    } else {
+      this.gotoHomePage();
     }
   }
 
-  getImageIfExists(){
+  gotoHomePage() {
+    this.navCtrl.setRoot('HomePage');
+  }
+  getImageIfExists() {
     this.clienteService.getImageFromBucket(this.cliente.id)
-    .subscribe(response =>{
-      this.cliente.imageUrl = `${API_CONFIG.backetBaseUrl}/cp${this.cliente.id}.jpg`;
-      console.log('Imagem do bucket ok '+this.cliente.imageUrl)
-    },error => {});
+      .subscribe(response => {
+        this.cliente.imageUrl = `${API_CONFIG.backetBaseUrl}/cp${this.cliente.id}.jpg`;
+        console.log('Imagem do bucket ok ' + this.cliente.imageUrl)
+      }, error => { });
 
   }
 }

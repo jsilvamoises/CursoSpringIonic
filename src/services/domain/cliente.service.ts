@@ -1,3 +1,5 @@
+import { EstadoDTO } from './../../models/estado.dto';
+import { ClienteNewDTO } from './../../models/cliente-new.dto';
 import { API_CONFIG } from './../../config/api.config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -6,7 +8,7 @@ import { Observable } from 'rxjs/Rx';
 import { StorangeService } from '../storange.service';
 @Injectable()
 export class ClienteService {
-
+   
     constructor(public http: HttpClient, public storange: StorangeService) { }
 
     findByEmail(email: string): Observable<ClienteDTO> {
@@ -22,4 +24,8 @@ export class ClienteService {
         let url = `${API_CONFIG.backetBaseUrl}/cp${id}.jpg`
         return this.http.get(url,{responseType:'blob'});
     }
+
+    
+
+    
 }

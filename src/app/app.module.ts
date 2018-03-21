@@ -1,3 +1,6 @@
+import { CidadeService } from './../services/domain/cidade.service';
+import { EstadoService } from './../services/domain/estado.service';
+import { ClienteNewDTO } from './../models/cliente-new.dto';
 import { AuthInterceptor, AuthInterceptorProvider } from './../interceptors/auth-interceptor';
 import { StorangeService } from './../services/storange.service';
 import { AuthService } from './../services/auth.service';
@@ -38,8 +41,10 @@ import { ClienteService } from '../services/domain/cliente.service';
     AuthInterceptorProvider,
     ErrorInterceptorProvider,
     AuthService,
-    StorangeService,
+    StorangeService,  
     ClienteService,
+    EstadoService,
+    CidadeService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

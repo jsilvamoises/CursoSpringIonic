@@ -1,6 +1,9 @@
 <ion-header>
 
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Profile</ion-title>
   </ion-navbar>
 </ion-header>
@@ -8,8 +11,7 @@
 
 <ion-content padding>
   <ion-avatar>
-    <img class="circle" [src]="cliente?.imageUrl || 'assets/imgs/avatar-blank.png'">
-  {{cliente | json}}
+    <img class="circle" [src]="cliente?.imageUrl || 'assets/imgs/avatar-blank.png'"> {{cliente | json}}
   </ion-avatar>
   <h2 text-center>{{cliente?.nome}}</h2>
   <p text-center>{{cliente?.email}}</p>

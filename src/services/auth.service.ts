@@ -1,3 +1,4 @@
+import { CartService } from './domain/cart.service';
 import { LocalUser } from './../models/local_user';
 import { API_CONFIG } from './../config/api.config';
 import { HttpClient } from '@angular/common/http';
@@ -8,7 +9,9 @@ import { JwtHelper } from 'angular2-jwt'
 @Injectable()
 export class AuthService {
     jwtHelper : JwtHelper = new JwtHelper();
-    constructor(public http: HttpClient, public storange:StorangeService ) {
+    constructor(public http: HttpClient, 
+        public storange:StorangeService,
+    public cartService:CartService ) {
 
     }
     autheticate(creds: CredenciaisDTO) {
@@ -26,6 +29,7 @@ export class AuthService {
        };
 
        this.storange.setLocalUser(localUser);
+       this.cartService.createOrClearCart();
     }
 
     refreshToken() {

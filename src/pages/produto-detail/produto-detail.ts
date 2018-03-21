@@ -1,3 +1,4 @@
+import { CartService } from './../../services/domain/cart.service';
 import { API_CONFIG } from './../../config/api.config';
 import { ProdutoService } from './../../services/domain/produto.service';
 import { ProdutoDTO } from './../../models/produto.dto';
@@ -20,6 +21,7 @@ export class ProdutoDetailPage {
   produto: ProdutoDTO;
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
+    public cartService:CartService,
   public produtoService:ProdutoService) {
   }
 
@@ -40,6 +42,11 @@ export class ProdutoDetailPage {
     .subscribe(response =>{
       this.produto.imageUrl = `${API_CONFIG.backetBaseUrl}/prod${this.produto.id}.jpg`;
     },error =>{});
+  }
+
+  addToCart(produto:ProdutoDTO){
+         this.cartService.addProduto(produto);
+         this.navCtrl.setRoot('CartPage');
   }
 
 }

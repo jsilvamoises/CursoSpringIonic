@@ -11,15 +11,20 @@
 
 
 <ion-content padding>
-    <ion-list>
-        <button ion-item *ngFor="let produto of produtos"  (click)="showDetail(produto.id)">
-          <ion-thumbnail item-start>
-              <img class="circle" [src]="produto?.imageUrl || 'assets/imgs/prod.jpg'" >
-         <!--   <img class="img-corner-10" src="{{bucketUrl}}/cat{{item.id}}.jpg"> -->
-          </ion-thumbnail>
-          <h6 style="text-size:8px">Código: {{produto.id}}</h6>
-          <h2>{{produto.nome}}</h2> 
-          <p>{{produto.preco}}</p>     
-        </button>
-      </ion-list>
+  <ion-fab top right edge>
+    <button navPush="CartPage" ion-fab-mini>
+      <ion-icon name="cart" color="primary"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-list>
+    <button ion-item *ngFor="let produto of produtos" (click)="showDetail(produto.id)">
+      <ion-thumbnail item-start>
+        <img class="circle" [src]="produto?.imageUrl || 'assets/imgs/prod.jpg'">
+        <!--   <img class="img-corner-10" src="{{bucketUrl}}/cat{{item.id}}.jpg"> -->
+      </ion-thumbnail>
+      <h6 style="text-size:8px">Código: {{produto.id}}</h6>
+      <h2>{{produto.nome}}</h2>
+      <p>{{produto.preco}}</p>
+    </button>
+  </ion-list>
 </ion-content>

@@ -1,3 +1,4 @@
+import { ProdutoService } from './../services/domain/produto.service';
 import { CidadeService } from './../services/domain/cidade.service';
 import { EstadoService } from './../services/domain/estado.service';
 import { ClienteNewDTO } from './../models/cliente-new.dto';
@@ -45,6 +46,7 @@ import { ClienteService } from '../services/domain/cliente.service';
     ClienteService,
     EstadoService,
     CidadeService,
+    ProdutoService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

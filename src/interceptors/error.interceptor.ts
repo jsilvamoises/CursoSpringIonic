@@ -1,3 +1,4 @@
+import { FieldMessage } from './../models/field-message';
 import { StorangeService } from './../services/storange.service';
 
 import { Observable } from 'rxjs/Rx';
@@ -9,7 +10,7 @@ import { AlertController } from 'ionic-angular';
 export class ErrorInterceptor implements HttpInterceptor {
     constructor(
         public storage: StorangeService,
-        public alertCtrl:AlertController
+        public alertCtrl: AlertController
     ) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         console.log("passou");
@@ -34,8 +35,14 @@ export class ErrorInterceptor implements HttpInterceptor {
                     case 403:
                         this.handle403();
                         break;
-                        default:
+                    default:
                         this.handleDefault(errorObj);
+                        break
+                    case 422:
+                        this.handle422(errorObj);
+                        break;
+                        case 500:
+                        this.handle500(errorObj);
                         break
                 }
 
@@ -49,12 +56,12 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     handle401() {
         let alert = this.alertCtrl.create({
-            title:'Erro 401: Falha de autenticação.',
+            title: 'Erro 401: Falha de autenticação.',
             message: 'Email ou senha incorretos.',
-            enableBackdropDismiss:false,
-            buttons:[
+            enableBackdropDismiss: false,
+            buttons: [
                 {
-                    text:'ok'
+                    text: 'ok'
                 }
             ]
         });
@@ -63,19 +70,49 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     handleDefault(error) {
         let alert = this.alertCtrl.create({
-            title:`Erro ${error.status} : ${error.error}`,
+            title: `Erro ${error.status} : ${error.error}`,
             message: error.message,
-            enableBackdropDismiss:false,
-            buttons:[
+            enableBackdropDismiss: false,
+            buttons: [
                 {
-                    text:'ok'
+                    text: 'ok'
+                }
+            ]
+        });
+        alert.present();
+    }
+    listError(messages:FieldMessage[]):string{
+          let s: string ='';
+          for( var i =0; i< messages.length;i++){
+              s+= `<p><strong>${messages[i].fieldName} : </strong>${messages[i].fieldMessage}\n</p>`;
+          }
+
+          return s;
+    }
+
+    handle422(error) {
+        let alert = this.alertCtrl.create({
+            title: `Erro de validação: ${error.status} `,
+            message: this.listError(error.errors),
+            enableBackdropDismiss: false,
+            buttons: [
+                {
+                    text: 'ok'
                 }
             ]
         });
         alert.present();
     }
 
+    handle500(error){
+      let  path ="/auth/refresh_token";
+      if(error.path != path){
+          this.handleDefault(error);
+      }
+    }
+    
 }
+
 
 
 export const ErrorInterceptorProvider = {

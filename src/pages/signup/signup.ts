@@ -7,8 +7,8 @@ import { ClienteService } from './../../services/domain/cliente.service';
 import { ClienteDTO } from './../../models/cliente.dto';
 import { ClienteNewDTO } from './../../models/cliente-new.dto';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FormGroup, FormBuilder,Validators } from '@angular/forms';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 /**
@@ -24,33 +24,33 @@ import { FormGroup, FormBuilder,Validators } from '@angular/forms';
   templateUrl: 'signup.html',
 })
 export class SignupPage {
-  formGroup: FormGroup;  
+  formGroup: FormGroup;
   estados: EstadoDTO[];
   cidades: CidadeDTO[];
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public clienteService: ClienteService,
     public estadoService: EstadoService,
-    public cidadeService:CidadeService,
+    public alertCtrl: AlertController,
+    public cidadeService: CidadeService,
     public formBuilder: FormBuilder) {
-      this.formGroup =formBuilder.group({
-        nome:['Moiseés Juvenal',[Validators.required,Validators.minLength(5),Validators.maxLength(120)]],
-        email:['',[Validators.required,Validators.email]],
-        tipo:['',[Validators.required]],
-        cpfCnpj:['',[Validators.required,Validators.minLength(11),Validators.minLength(14)]],
-        senha:['',[Validators.required]],
-        logradouro:['',[Validators.required]],
-        numero:['',[Validators.required]],
-        complemento:['',[]],
-        bairro:['',[Validators.required]],
-        cep:['',[Validators.required]],
-        telefone01:['',[Validators.required]],
-        telefone02:['',[]],
-        telefone03:['',[]],
-        password:['',[Validators.required]],
-        estadoId:['',[Validators.required]],
-        cidadeId:['',[Validators.required]]
-      });
+    this.formGroup = formBuilder.group({
+      nome: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
+      email: ['', [Validators.required, Validators.email]],
+      tipo: ['0', [Validators.required]],
+      cpfCnpj: ['', [Validators.required, Validators.minLength(11), Validators.minLength(14)]],
+      password: ['', [Validators.required]],
+      logradouro: ['', [Validators.required]],
+      numero: ['', [Validators.required]],
+      complemento: ['', []],
+      bairro: ['', [Validators.required]],
+      cep: ['', [Validators.required]],
+      telefone01: ['', [Validators.required]],
+      telefone02: ['', []],
+      telefone03: ['', []],
+      estadoId: ['', [Validators.required]],
+      cidadeId: ['', [Validators.required]]
+    });
   }
 
   ionViewDidLoad() {
@@ -59,9 +59,7 @@ export class SignupPage {
   }
 
 
-  cadastrar() {
-    
-  }
+
 
   listarEstados() {
     this.estadoService.listEstados()
@@ -73,13 +71,43 @@ export class SignupPage {
   }
 
 
-  updateCidades(){
+  updateCidades() {
     let estadoId = this.formGroup.value.estadoId;
-     this.cidadeService.cidadesByEstadoID(estadoId)
-     .subscribe(response =>{
-       this.cidades = response;
-       this.formGroup.controls.cidadeId.setValue(null);
-     },error =>{})
+    this.cidadeService.cidadesByEstadoID(estadoId)
+      .subscribe(response => {
+        this.cidades = response;
+        this.formGroup.controls.cidadeId.setValue(null);
+      }, error => { })
   }
 
+  signupUser() {
+    console.log(this.formGroup.value);
+    this.clienteService.insert(this.formGroup.value)
+      .subscribe(response => {
+        this.showInsertOk();
+      }, error => { });
+    ;
+  }
+  showInsertOk() {
+    let alert = this.alertCtrl.create({
+      title: 'Sucesso!',
+      message: 'Cadastro efetuado com sucesso!',
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            this.navCtrl.pop();
+            this.formGroup.reset;
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  cancelar(){
+    this.navCtrl.pop();
+    this.formGroup.reset;
+  }
 }

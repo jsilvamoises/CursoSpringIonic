@@ -59,5 +59,11 @@ export class CartPage {
   goOn(){
     this.navCtrl.setRoot('CategoriasPage');
   }
+  checkout(){
+    this.navCtrl.push('PickAddressPage');
+  }
 
+  disableBotaoFinalizarCompra(){
+        return this.cartService.getCart().items.length < 1;
+  }
 }

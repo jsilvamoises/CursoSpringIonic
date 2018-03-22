@@ -11,11 +11,11 @@ export class ClienteService {
    
     constructor(public http: HttpClient, public storange: StorangeService) { }
 
-    findByEmail(email: string): Observable<ClienteDTO> {
+    findByEmail(email: string)  {
         console.log('Iniciando busca por email');
        /* let token = this.storange.getLocalUser().token;
         let authHeader = new HttpHeaders({ 'Authorization': 'Bearer ' + token });*/
-        return this.http.get<ClienteDTO>(
+        return this.http.get(
             `${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
     }
 
@@ -28,6 +28,11 @@ export class ClienteService {
     insert(obj:ClienteDTO){
         return this.http.post(`${API_CONFIG.baseUrl}/clientes`,obj,
         {observe:'response',responseType:'text'});
+    }
+
+    enderecosByEmail(email:string){
+       let url =`${API_CONFIG.baseUrl}/clientes/${email}/enderecos`;
+       return this.http.get(url);
     }
 
     

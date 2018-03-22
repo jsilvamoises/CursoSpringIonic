@@ -19,6 +19,14 @@ export class ClienteService {
             `${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
     }
 
+    findById(id: string)  {
+        console.log('Iniciando busca por email');
+       /* let token = this.storange.getLocalUser().token;
+        let authHeader = new HttpHeaders({ 'Authorization': 'Bearer ' + token });*/
+        return this.http.get(
+            `${API_CONFIG.baseUrl}/clientes/${id}`);
+    }
+
     getImageFromBucket(id:string):Observable<any>{
         console.log('buscando image no bucket.')
         let url = `${API_CONFIG.backetBaseUrl}/cp${id}.jpg`
@@ -34,6 +42,9 @@ export class ClienteService {
        let url =`${API_CONFIG.baseUrl}/clientes/${email}/enderecos`;
        return this.http.get(url);
     }
+
+
+
 
     
 }

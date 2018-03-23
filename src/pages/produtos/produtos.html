@@ -11,9 +11,19 @@
 
 
 <ion-content padding>
-  <ion-fab top right edge>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- <ion-fab top right edge>
     <button navPush="CartPage" ion-fab-mini>
       <ion-icon name="cart" color="primary"></ion-icon>
+    </button>
+  </ion-fab>-->
+  <ion-fab top right edge>
+    <button navPush="CartPage" ion-fab mini color="primary">
+      <ion-icon name="cart"></ion-icon>
     </button>
   </ion-fab>
   <ion-list>
@@ -27,4 +37,10 @@
       <p>{{produto.preco}}</p>
     </button>
   </ion-list>
+
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>

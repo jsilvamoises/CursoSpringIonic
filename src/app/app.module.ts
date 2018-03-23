@@ -1,3 +1,5 @@
+import { ImageUtilService } from './../services/image-util.service';
+import { PedidoService } from './../services/domain/pedido.service';
 import { CartService } from './../services/domain/cart.service';
 import { ProdutoService } from './../services/domain/produto.service';
 import { CidadeService } from './../services/domain/cidade.service';
@@ -49,6 +51,8 @@ import { ClienteService } from '../services/domain/cliente.service';
     CidadeService,
     ProdutoService,
     CartService,
+    PedidoService,
+    ImageUtilService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
